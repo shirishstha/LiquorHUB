@@ -128,7 +128,7 @@ const verifyPayment = async (req, res) => {
         }
 
         if (decodedData.status === "COMPLETE") {
-            const order = await orderModel.findByIdAndUpdate(oid, { transactionId: refId, status: "success" });
+            const order = await orderModel.findByIdAndUpdate(oid, { transactionId: refId, status: "processing" });
             const productIDs = order?.products.map((item) => new mongoose.Types.ObjectId(item._id));
             const productDB = await productModel.find({ _id: { $in: productIDs } }).select("_id quantity");
 

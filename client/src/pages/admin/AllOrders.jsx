@@ -36,7 +36,7 @@ import {
 const AllOrders = () => {
   const [orders, setOrders] = useState([]);
   const [auth] = useAuth();
-  const status = ["success", "processing", "shipped", "delivered", "cancel"];
+  const status = ["success", "delivered", "cancel"];
   const navigate = useNavigate();
 
   const getAllOrders = async () => {

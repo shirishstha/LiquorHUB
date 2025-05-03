@@ -1,6 +1,5 @@
 import React from "react";
 import Autoplay from "embla-carousel-autoplay";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -10,7 +9,7 @@ import {
 } from "@/components/ui/carousel";
 
 const HeroCarousel = () => {
-  const items = ["/slider_bg.png", "/slider_bg2.png", "slider_bg3.png"];
+  const items = ["/slider_bg.png", "/slider_bg2.png", "slider_bg4.png"];
 
   return (
     <Carousel

@@ -6,18 +6,18 @@ const {registerController,loginController, forgotPasswordController, updateProfi
 
 
 //middlewares
-const { requireSignin, isAdmin } = require('../middleware/authMiddleware');
+const { isUser, isAdmin } = require('../middleware/authMiddleware');
 
 const authrouter= express.Router();
 
 authrouter.post('/register', registerController);
 authrouter.post('/login', loginController);
 authrouter.post('/forgot-password',forgotPasswordController);
-authrouter.put('/update-profile/:uid', requireSignin, updateProfileController );
+authrouter.put('/update-profile/:uid', isUser, updateProfileController );
 
 
 //private routes
-authrouter.get('/user-auth', requireSignin, (req,res)=>{
+authrouter.get('/user-auth', isUser, (req,res)=>{
     res.status(200).send({
         ok:true
     })
@@ -25,7 +25,7 @@ authrouter.get('/user-auth', requireSignin, (req,res)=>{
 })
 
 //admin routes 
-authrouter.get('/admin-auth', requireSignin, isAdmin, (req, res) =>{
+authrouter.get('/admin-auth', isAdmin, (req, res) =>{
     res.status(200).send({
         ok:true
     })

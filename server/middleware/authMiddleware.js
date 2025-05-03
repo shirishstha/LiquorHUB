@@ -1,7 +1,7 @@
 const JWT = require("jsonwebtoken");
 const userModel = require("../model/userModel");
 
-const requireSignin = async (req, res, next) =>{
+const isUser = async (req, res, next) =>{
     try {
         const authHeader = req.headers?.authorization;
         if(!authHeader){
@@ -13,7 +13,16 @@ const requireSignin = async (req, res, next) =>{
         const token = authHeader.split(" ")[1];
         const decode = await JWT.verify(token , process.env.JWT_KEY);
         req.user = decode ;
-        next();
+        const user = await userModel.findById(req.user._id);
+        if(user.role === 1){
+            return res.status(401).send({
+                ok:false,
+                message:"Only users are allowed to access this route"
+            }) 
+        }else{
+            next();
+        }
+
     } catch (error) {
         console.log(error);
         if(error.name === "TokenExpiredError"){
@@ -31,25 +40,41 @@ const requireSignin = async (req, res, next) =>{
 
 const isAdmin = async (req, res, next) =>{
     try {
-        const user = await userModel.findById(req.user._id);
-        if(user.role != 1){
-               return res.status(401).send({
-                message: "User is not authorized"
+        const authHeader = req.headers?.authorization;
+        if(!authHeader){
+            return res.status(401).send({
+                ok:false,
+                message:"Authorization header missing"
             })
+        }
+        const token = authHeader.split(" ")[1];
+        const decode = await JWT.verify(token , process.env.JWT_KEY);
+        req.user = decode ;
+        const user = await userModel.findById(req.user._id);
+        if(user.role === 1){
+            next();     
         }else{
-            next();
+            return res.status(401).send({
+                ok:false,
+                message:"Only admins are allowed to access this route"
+            }) 
+            
         }
 
-
-        
     } catch (error) {
-        res.status(500).send({
-            message:"Error generated in admin check middleware",
-            error
+        console.log(error);
+        if(error.name === "TokenExpiredError"){
+            return res.status(401).send({
+                ok:false,
+                message:"Token expired"
+            })
+        }
+        return res.status(401).send({
+            ok:false,
+            message:'Invalid token'
         })
-        
     }
 }
 
-exports.requireSignin=requireSignin;
+exports.isUser=isUser;
 exports.isAdmin=isAdmin;

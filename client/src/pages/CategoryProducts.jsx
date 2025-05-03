@@ -31,7 +31,7 @@ const CategoryProducts = () => {
     getCategoryProducts();
   }, [params]);
   return (
-    <Layout>
+    <Layout title={`Category-${params.slug}`}>
       {categoryProducts && <ProductCard products={categoryProducts} />}
     </Layout>
   );

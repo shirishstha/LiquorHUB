@@ -7,13 +7,36 @@ const { hashPassword, comparePassword } = require('../helpers/authHelper');
 
 
 const registerController = async (req, res) => {
-
+    const errors = [];
     try {
         const { name, email, password, address, phone, answer } = req.body;
 
         if (!name || !email || !password || !address || !phone || !answer) {
-            return res.status(200).send({
-                message: "All fields are mandatory"
+            errors.push("All fields are mandatory");
+        }
+
+        // Phone validation: must be 10 digits starting with 9
+        const phoneRegex = /^9[0-9]{9}$/;
+        if (!phoneRegex.test(phone)) {
+            errors.push("Phone number must be a 10-digit number starting with 9");
+        }
+
+        // Email validation: simple regex check
+        const emailRegex = /^[a-z0-9._]+@[a-z]+\.[a-z]{2,}$/;
+        if (!emailRegex.test(email)) {
+            errors.push("Invalid email format");
+        }
+
+        // password validation: simple regex check
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%&*?])[a-zA-Z\d@#$%&*?]{6,}$/;
+        if (!passwordRegex.test(password)) {
+            errors.push("Invalid password format , should contain 1 uppercase 1 lowercase and special symbol");
+        }
+
+        if(errors.length>0){
+            return res.send({
+                message: "validation failed",
+                success: false
             })
         }
 
@@ -94,7 +117,7 @@ const loginController = async (req, res) => {
             user: {
                 email: user.email,
                 name: user.name,
-                address:user.address,
+                address: user.address,
                 role: user.role,
                 phone: user.phone,
                 _id: user._id
@@ -174,10 +197,10 @@ const updateProfileController = async (req, res) => {
         res.status(200).send({
             success: true,
             message: "User updated successfully",
-            updatedUser:{
-                name:updatedUser.name,
-                address:updatedUser.address,
-                phone:updatedUser.phone
+            updatedUser: {
+                name: updatedUser.name,
+                address: updatedUser.address,
+                phone: updatedUser.phone
             }
         })
     } catch (error) {

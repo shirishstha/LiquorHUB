@@ -35,14 +35,7 @@ const AdminDashboard = () => {
   const [lowstock, setLowstock] = useState([]);
 
   const [auth] = useAuth();
-  const success = ["success", "processing", "delivered", "shipped"];
-  const data = [
-    { name: "abc", amount: "123", count: "5" },
-    { name: "adc", amount: "133", count: "4" },
-    { name: "aec", amount: "143", count: "5" },
-    { name: "afc", amount: "153", count: "6" },
-  ];
-
+  const success = ["success", "delivered"];
   const getUserOrders = async () => {
     try {
       const { data } = await axios.get(
@@ -172,7 +165,7 @@ const AdminDashboard = () => {
   }, [auth?.token]);
 
   return (
-    <Layout>
+    <Layout title="Dashboard">
       <SidebarLayout>
         <div className="grid grid-cols-4 w-full mt-2">
           <div className="flex flex-col space-y-10 w-full px-5 col-span-3">

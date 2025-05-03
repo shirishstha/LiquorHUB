@@ -3,7 +3,7 @@ const express = require('express');
 
 
 //local modules
-const { requireSignin, isAdmin } = require('../middleware/authMiddleware');
+const { isAdmin } = require('../middleware/authMiddleware');
 const {
     createCategoryController,
     getAllCategoryController,
@@ -18,13 +18,13 @@ const categoryRouter = express.Router();
 //routes
 
 //create category
-categoryRouter.post('/create-category', requireSignin, isAdmin, createCategoryController);
+categoryRouter.post('/create-category', isAdmin, createCategoryController);
 
 //update category
-categoryRouter.put('/update-category/:cid', requireSignin, isAdmin, updateCategoryController);
+categoryRouter.put('/update-category/:cid', isAdmin, updateCategoryController);
 
 //delete category
-categoryRouter.delete('/delete-category/:cid', requireSignin, isAdmin, deleteCategoryController);
+categoryRouter.delete('/delete-category/:cid', isAdmin, deleteCategoryController);
 
 //get all categories
 categoryRouter.get('/getall-category', getAllCategoryController);

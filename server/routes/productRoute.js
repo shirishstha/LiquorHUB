@@ -17,20 +17,20 @@ const {
     allOrdersProductsController,
     updateOrderStatusProductController,
 } = require('../controller/productController');
-const { requireSignin, isAdmin } = require('../middleware/authMiddleware');
+const { isUser, isAdmin } = require('../middleware/authMiddleware');
 
 const productRouter = express.Router();
 
 //routes
 
 //create product
-productRouter.post('/create-product', requireSignin, isAdmin, formidable(), createProductController);
+productRouter.post('/create-product', isAdmin, formidable(), createProductController);
 
 //update product
-productRouter.put('/update-product/:pid', requireSignin, isAdmin, formidable(), updateProductController);
+productRouter.put('/update-product/:pid', isAdmin, formidable(), updateProductController);
 
 //delete product
-productRouter.delete('/delete-product/:pid', requireSignin, isAdmin, deleteProductController);
+productRouter.delete('/delete-product/:pid', isAdmin, deleteProductController);
 
 //get all products
 productRouter.get('/getall-product', getAllProductController);
@@ -54,13 +54,13 @@ productRouter.get('/category-product/:slug',categoryProductsController);
 productRouter.get('/order/:oid',orderProductsController);
 
 //get user's orders
-productRouter.get('/user-orders', requireSignin, userOrdersProductsController);
+productRouter.get('/user-orders', isUser, userOrdersProductsController);
 
 //get all orders
-productRouter.get('/all-orders', requireSignin, isAdmin, allOrdersProductsController);
+productRouter.get('/all-orders', isAdmin, allOrdersProductsController);
 
 //update order status
-productRouter.put('/update-order/:oid', requireSignin, isAdmin, updateOrderStatusProductController);
+productRouter.put('/update-order/:oid', isAdmin, updateOrderStatusProductController);
 
 
 

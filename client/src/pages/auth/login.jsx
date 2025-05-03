@@ -1,5 +1,4 @@
 import Layout from "@/components/layout/Layout";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,7 +7,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useAuth } from "@/context/auth";
-import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -37,7 +36,7 @@ const LoginPage = () => {
           token: res.data.token,
         });
         localStorage.setItem("auth", JSON.stringify(res.data, null, 4));
-        navigate(location.state?.from?.pathname || "/");
+        navigate(location.state?.from?.pathname || res.data.user?.role === 0? "/":"/dashboard/admin");
       } else {
         toast.error(res.data.message);
       }
@@ -66,12 +65,10 @@ const LoginPage = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="m@example.com"
-                    className="pl-8"
+                    className="p-2"
                     required
                   />
-                  <Label className="absolute flex mt-2.5 ml-2 text-gray-600">
-                    <Mail size={15} />
-                  </Label>
+                
                 </div>
               </div>
               <div className="grid gap-3 ">
@@ -90,12 +87,10 @@ const LoginPage = () => {
                     type={`${showPassword ? "text" : "password"}`}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-8"
+                    className="p-2"
                     required
                   />
-                  <Label className="absolute flex mt-2.5 ml-2 text-gray-600">
-                    <Lock size={15}/>
-                  </Label>
+                 
                   <Button
                     className="absolute ml-[28%] hover:bg-white h-5 text-xs mt-2 p-0 cursor-pointer text-gray-600"
                     type="button"

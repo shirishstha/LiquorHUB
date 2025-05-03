@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -14,13 +15,29 @@ const RegisterPage = () => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    const emailRegex = /^(?=[a-zA-Z0-9._%+-]*[a-zA-Z])[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%&*?])[a-zA-Z\d@#$%&*?]{6,}$/;
+    const phoneRegex = /^9[0-9]{9}$/;
+
     if (!name || !address || !phone || !email || !password || !answer) {
       return toast.error("All fields are mandatory");
     }
+    if(!emailRegex.test(email)){
+        return toast.error("Please enter a valid email");
+    }
+    if(!passwordRegex.test(password)){
+      return toast.error("Password must be a combination of small,capital, special characters and more that 6 digits");
+    }
+    if(!phoneRegex.test(phone)){
+      return toast.error("Please enter a valid phone number ");
+    }
+    
     //Fetching data from the server
     try {
       const res = await axios.post(
@@ -118,12 +135,26 @@ const RegisterPage = () => {
                   <Label htmlFor="password">Password</Label>
                 </div>
                 <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+                    id="password"
+                    type={`${showPassword ? "text" : "password"}`}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="p-2"
+                    required
+                  />
+                 
+                  <Button
+                    className="absolute ml-[26%] hover:bg-white h-5 text-xs mt-8.5  cursor-pointer text-gray-600"
+                    type="button"
+                    variant="ghost"
+                    onClick={() =>
+                      showPassword
+                        ? setShowPassword(false)
+                        : setShowPassword(true)
+                    }
+                  >
+                    {showPassword ? <Eye /> : <EyeOff />}
+                  </Button>
               </div>
               <Button
                 type="submit"

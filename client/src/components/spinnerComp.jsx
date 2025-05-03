@@ -19,7 +19,7 @@ const SpinnerComp = () => {
 
   useEffect(() => {
     if (count === 0) {
-      navigate(`${auth?.user ?'/':'/login'}`,{
+      navigate(`${auth?.user? (auth?.user?.role === 1 ?'/dashboard/admin':'/'):'/login'}`,{
         state: { from:location }  
       });
     }

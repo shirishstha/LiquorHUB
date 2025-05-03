@@ -37,15 +37,14 @@ const Dashboard = () => {
         `${import.meta.env.VITE_BACKEND_API}/api/liquorhub/product/user-orders`
       );
       if (data.success) {
-
-         //for calculating total purchase
-         const totalAmount=  data?.orders?.reduce((acc, order)=> { 
-          if(success.includes(order.status)){
-            acc+=order.totalAmount;
+        //for calculating total purchase
+        const totalAmount = data?.orders?.reduce((acc, order) => {
+          if (success.includes(order.status)) {
+            acc += order.totalAmount;
           }
-          return acc
-         },0);
-         setTotalPurchase(totalAmount);
+          return acc;
+        }, 0);
+        setTotalPurchase(totalAmount);
 
         //for graph chart
         const filteredOrder = data?.orders
@@ -96,12 +95,11 @@ const Dashboard = () => {
             });
           }
         });
-        
-        const topOrdersByCategory = Object.values(repeatCatCount)
-                    .sort((a,b)=> b.count - a.count) 
-                    .slice(0,3);
-        setMostCatPurchased(topOrdersByCategory);
 
+        const topOrdersByCategory = Object.values(repeatCatCount)
+          .sort((a, b) => b.count - a.count)
+          .slice(0, 3);
+        setMostCatPurchased(topOrdersByCategory);
       }
     } catch (error) {
       console.log(error);
@@ -116,7 +114,7 @@ const Dashboard = () => {
   }, [auth?.token]);
 
   return (
-    <Layout>
+    <Layout title="Dashboard">
       <SidebarLayout>
         <div className="grid grid-cols-4 w-full mt-2">
           <div className="flex flex-col space-y-10 w-full px-5 col-span-3">
@@ -135,22 +133,32 @@ const Dashboard = () => {
                 <Package2 />
               </span>
               <div className="p-2">
-                <h1 className="text-3xl ">Rs.{totalPurchase}</h1>
+                <h1 className="text-3xl ">
+                  Rs.{`${orderData.length > 0 ? totalPurchase : "0"}`}
+                </h1>
                 <h2 className="  text-xs text-gray-600">Total Purchase</h2>
               </div>
             </div>
 
             <h1 className="text-xl mb-1">Purchase Chart </h1>
-            <div className="h-[140%]">
-              <ResponsiveContainer>
-                <LineChart data={orderData}>
-                  <XAxis dataKey="date" minTickGap={32} tickMargin={10} />
-                  <YAxis tickMargin={10} />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="amount" stroke="#191919" />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
+
+            {orderData.length > 0 ? (
+              <div className="h-[140%]">
+                <ResponsiveContainer>
+                  <LineChart data={orderData}>
+                    <XAxis dataKey="date" minTickGap={32} tickMargin={10} />
+                    <YAxis tickMargin={10} />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="amount" stroke="#191919" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            ) : (
+              <div className="h-50 text-gray-500">
+                You will see your purchase chart here once you successfully
+                place a order.{" "}
+              </div>
+            )}
 
             {/* Most ordered products section */}
             <div className="">
@@ -161,18 +169,53 @@ const Dashboard = () => {
                 </h3>
               </div>
 
-              <Table className="w-[60%] ">
+              {orderData.length > 0 ? (
+                <Table className="w-[60%] ">
+                  <TableHeader>
+                    <TableRow className="hover:bg-white">
+                      <TableHead className="w-[30%] ">SN.</TableHead>
+                      <TableHead className="w-[50%] ">
+                        Name of Product
+                      </TableHead>
+                      <TableHead className="w-[20%]">Ordered times</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {mostPurchased?.map((product, index) => (
+                      <TableRow key={product.name}>
+                        <TableCell className="text-sm">{index + 1}</TableCell>
+                        <TableCell className="text-sm ">
+                          {product.name}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {product.count}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              ) : (
+                <div className="h-50 text-gray-500">
+                  You will see your top ordered items here once you successfully
+                  place a order.{" "}
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="col-span-1 px-2">
+            <h1 className="text-xl p-2"> Top Orders by Category</h1>
+            
+              <Table className="w-[100%] ">
                 <TableHeader>
                   <TableRow className="hover:bg-white">
-                    <TableHead className="w-[30%] ">SN.</TableHead>
-                    <TableHead className="w-[50%] ">Name of Product</TableHead>
+                    <TableHead className="w-[50%] ">Category</TableHead>
                     <TableHead className="w-[20%]">Ordered times</TableHead>
                   </TableRow>
                 </TableHeader>
-                <TableBody>
-                  {mostPurchased?.map((product, index) => (
+                {orderData.length > 0 ? (
+                   <TableBody>
+                  {mostCatPurchased?.map((product) => (
                     <TableRow key={product.name}>
-                      <TableCell className="text-sm">{index + 1}</TableCell>
                       <TableCell className="text-sm ">{product.name}</TableCell>
                       <TableCell className="text-center">
                         {product.count}
@@ -180,30 +223,13 @@ const Dashboard = () => {
                     </TableRow>
                   ))}
                 </TableBody>
+                 ) : (
+                  <div className="h-50 text-gray-500 w-full">
+                    Nothing to display
+                  </div>
+                )}
               </Table>
-            </div>
-          </div>
-          <div className="col-span-1 px-2">
-                <h1 className="text-xl p-2"> Top Orders by Category</h1>
-        
-            <Table className="w-[100%] ">
-              <TableHeader>
-                <TableRow className="hover:bg-white">
-                  <TableHead className="w-[50%] ">Category</TableHead>
-                  <TableHead className="w-[20%]">Ordered times</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {mostCatPurchased?.map((product) => (
-                  <TableRow key={product.name}>
-                    <TableCell className="text-sm ">{product.name}</TableCell>
-                    <TableCell className="text-center">
-                      {product.count}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+           
           </div>
         </div>
       </SidebarLayout>

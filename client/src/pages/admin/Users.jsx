@@ -38,7 +38,7 @@ const Users = () => {
 
   return (
     <div>
-      <Layout>
+      <Layout title="Dashboard-Users">
         <SidebarLayout>
           <div className="w-full h-screen flex flex-col items-center">
             <h1 className="text-2xl font-bold ">User Details </h1>
