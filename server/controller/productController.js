@@ -8,6 +8,7 @@ const slugify = require("slugify");
 const productModel = require('../model/productModel');
 const categoryModel = require('../model/categoryModel');
 const orderModel = require('../model/orderModel');
+const isValidUpdates = require('../helpers/updateOrderHelper');
 
 
 
@@ -416,17 +417,21 @@ const allOrdersProductsController = async (req, res) => {
 const updateOrderStatusProductController = async (req, res) => {
     try {
         const { oid } = req.params;
-        const status = req.body.newStatus;
-        const order = await orderModel
-            .findByIdAndUpdate(oid, { status }, { new: true, runValidators: true })
-            ;
+        const {newStatus} = req.body;
+        const order = await orderModel.findById(oid);
+        if (!order) return res.status(404).send({ message: 'Order not found', success:false });
 
-        if (!order) {
+        const currentStatus = order.status;
+
+        if(!isValidUpdates(currentStatus, newStatus)){
             return res.status(400).send({
                 success: false,
-                message: "Something went wrong"
-            })
+                message:`Invalid status update from ${currentStatus} to ${newStatus}`
+            });
         }
+
+        order.status = newStatus;
+        await order.save();
 
         res.status(200).send({
             success: true,

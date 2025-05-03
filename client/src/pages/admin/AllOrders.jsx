@@ -36,7 +36,8 @@ import {
 const AllOrders = () => {
   const [orders, setOrders] = useState([]);
   const [auth] = useAuth();
-  const status = ["success", "delivered", "cancel"];
+  const status = ["processing", "delivered", "cancelled"];
+  const [openRow, setOpenRow] = useState(null);
   const navigate = useNavigate();
 
   const getAllOrders = async () => {
@@ -69,11 +70,17 @@ const AllOrders = () => {
           )
         )
         getAllOrders();
+        toast.success("Status updated successfully");
       }
       
     } catch (error) {
+      if(error.response.status === 400){
+        console.log(error.response.data);
+        toast.error(error.response.data.message);
+      }else{
       console.log(error);
       toast.error("Error updating status");
+      }
     }
   };
   return (
@@ -111,6 +118,8 @@ const AllOrders = () => {
                           <Popover
                             openDelay={30}
                             closeDelay={50}
+                            open={openRow === order._id}
+                            onOpenChange={(open) => setOpenRow(open ? order._id : null)}
                           >
                             <PopoverTrigger asChild>
                               <Button variant="ghost" className="font-normal bg-white hover:bg-white hover:cursor-pointer">
@@ -141,9 +150,10 @@ const AllOrders = () => {
                                             Cancel
                                           </AlertDialogCancel>
                                           <AlertDialogAction
-                                            onClick={() =>
+                                            onClick={() =>{
+                                              setOpenRow(null);
                                               handleStatusChange(order._id, s)
-                                            }
+                                            }}
                                           >
                                             Continue
                                           </AlertDialogAction>
@@ -160,9 +170,13 @@ const AllOrders = () => {
                           {new Date(order.createdAt).toLocaleDateString()}
                         </TableCell>
                         <TableCell>Rs.{order.totalAmount}</TableCell>
-                        <TableCell><Button variant="outline" className="font-normal hover:bg-white " onClick={()=>navigate(`/dashboard/user/order/${order._id}`)}>View details</Button></TableCell>
+                        <TableCell><Button variant="outline" className="font-normal hover:bg-white " 
+                                        onClick={()=>navigate(`/dashboard/user/order/${order._id}`)}>
+                                          View details
+                                    </Button></TableCell>
                       </TableRow>
-                    ))}
+                      )
+                  )}
                 </TableBody>
               </Table>
             </div>

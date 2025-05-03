@@ -141,11 +141,18 @@ const loginController = async (req, res) => {
 const forgotPasswordController = async (req, res) => {
     try {
         const { email, answer, newPassword } = req.body;
-        const user = await userModel.findOne({ email, answer });
-
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%&*?])[a-zA-Z\d@#$%&*?]{6,}$/;
+        if (!passwordRegex.test(newPassword)) {
+            return res.status(400).send({
+                success: false,
+                message: "Password format invalid"
+            })
+          }
+       
+        const user = await userModel.findOne({ email, answer })
 
         if (!user) {
-            return res.send({
+            return res.status(400).send({
                 success: false,
                 message: 'Email or security answer is invalid'
             })

@@ -63,9 +63,9 @@ const Users = () => {
                       <TableCell>{user?.email}</TableCell>
                       <TableCell className="flex justify-center">
                         <span
-                          className={` rounded-xl text-xs font-medium p-1.5 ${
-                            user?.role === 1 ? "bg-black/90 text-white" : "border"
-                          }`}
+                          className={`text-center rounded-xl text-xs font-medium p-1.5 ${
+                            user?.role === 1 ? "bg-black/80 text-white" : "border"
+                          } w-17`}
                         >{`${user?.role === 1 ? "Admin" : "Customer"}`}</span>
                       </TableCell>
                       <TableCell>{user?.orderCount}</TableCell>

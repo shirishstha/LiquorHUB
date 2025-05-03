@@ -6,10 +6,8 @@ import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import {
   ResponsiveContainer,
-  LineChart,
   XAxis,
   Tooltip,
-  Line,
   YAxis,
   BarChart,
   Bar,
@@ -35,7 +33,7 @@ const AdminDashboard = () => {
   const [lowstock, setLowstock] = useState([]);
 
   const [auth] = useAuth();
-  const success = ["success", "delivered"];
+  const status = ["processing", "delivered"];
   const getUserOrders = async () => {
     try {
       const { data } = await axios.get(
@@ -44,7 +42,7 @@ const AdminDashboard = () => {
       if (data.success) {
         //for calculating total sales
         const totalAmount = data?.orders?.reduce((acc, order) => {
-          if (success.includes(order.status)) {
+          if (status.includes(order.status)) {
             acc += order.totalAmount;
           }
           return acc;
@@ -53,9 +51,9 @@ const AdminDashboard = () => {
 
         //for graph chart
         const filteredOrder = data?.orders
-          ?.filter((order) => success.includes(order.status))
+          ?.filter((order) => status.includes(order.status))
           .map((order) => ({
-            date: order.updatedAt.split("T")[0],
+            date: order.createdAt.split("T")[0],
             amount: order.totalAmount,
           }))
           .sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -64,7 +62,7 @@ const AdminDashboard = () => {
         //for most sales list
         let repeatCount = {};
         data?.orders?.forEach((order) => {
-          if (success.includes(order.status)) {
+          if (status.includes(order.status)) {
             order?.products?.forEach((product) => {
               const pid = product._id._id;
               if (repeatCount[pid]) {
@@ -86,7 +84,7 @@ const AdminDashboard = () => {
         //category wise sales rank
         let repeatCatCount = {};
         data?.orders?.forEach((order) => {
-          if (success.includes(order.status)) {
+          if (status.includes(order.status)) {
             order?.products?.forEach((product) => {
               const cid = product._id.category._id;
               if (repeatCatCount[cid]) {
@@ -109,7 +107,7 @@ const AdminDashboard = () => {
         //top sold product's amount
         let totalSumOfAProduct = {};
         data?.orders?.forEach((order) => {
-          if (success.includes(order.status)) {
+          if (status.includes(order.status)) {
             order?.products?.forEach((product) => {
               const pid = product._id._id;
               const acc = product.quantity * product._id.price;
@@ -127,8 +125,6 @@ const AdminDashboard = () => {
         let rankOfSingleProductSales = Object.values(totalSumOfAProduct)
           .sort((a, b) => b.total - a.total)
           .slice(0, 5);
-
-          console.log(rankOfSingleProductSales);
         setItemSales(rankOfSingleProductSales);
       }
     } catch (error) {
@@ -193,10 +189,16 @@ const AdminDashboard = () => {
             <ResponsiveContainer height={300}>
               <AreaChart data={orderData}>
                 <XAxis dataKey="date" minTickGap={32} tickMargin={10} />
-               
-                <Area  type="monotone" dataKey="amount" stroke="#525252" fill="#F5F5F5" strokeWidth={0.3} fillOpacity={0.8} />
+
+                <Area
+                  type="monotone"
+                  dataKey="amount"
+                  stroke="#525252"
+                  fill="#F5F5F5"
+                  strokeWidth={0.3}
+                  fillOpacity={0.8}
+                />
                 <Tooltip />
-         
               </AreaChart>
             </ResponsiveContainer>
 
@@ -237,21 +239,26 @@ const AdminDashboard = () => {
               <div className="mt-10 py-2 ">
                 <h1 className="text-xl "> Most Revenue</h1>
                 <h3 className="text-gray-600 pb-2 text-sm ">
-                  Highest revenue generated according to product 
+                  Highest revenue generated according to product
                 </h3>
               </div>
               <ResponsiveContainer width="120%" height={300} className="mt-0 ">
                 <BarChart data={itemSales}>
-                  <Tooltip cursor={false}/>
-                  <XAxis dataKey="name"  className="text-sm" />
+                  <Tooltip
+                    itemStyle={{ color: '#4c4c4c' }}
+                    cursor={false}
+                  />
+
+                  <XAxis dataKey="name" className="text-sm" />
                   <YAxis />
                   <Bar
                     dataKey="total"
                     barSize={25}
-                    fill="#CDCDCF"
-                    fillOpacity={1}
+                    fill="#F5F5F5"
                     stroke="#525252"
+                    strokeOpacity={0.3}
                     strokeWidth={0.2}
+                    fillOpacity={1}
                   />
                 </BarChart>
                 <div className="flex space-x-1 justify-center">

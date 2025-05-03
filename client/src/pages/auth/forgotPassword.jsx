@@ -16,9 +16,17 @@ export function ForgotPassword({ className, ...props }) {
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%&*?])[a-zA-Z\d@#$%&*?]{6,}$/;
+
     if (!email || !answer || !newPassword) {
       return toast.error("All fields needed");
     }
+    if (!passwordRegex.test(newPassword)) {
+      return toast.error(
+        "Invalid password format"
+      );
+    }
+
     try {
       const res = await axios.post(
         `${
@@ -46,7 +54,11 @@ export function ForgotPassword({ className, ...props }) {
             className="h-full w-full object-cover"
           />
         </div>
-        <div className="flex flex-col justify-center w-1/2 px-28  ">
+        <div className="flex flex-col r w-1/2 px-25  mt-3">
+        <div className="mb-5 text-gray-500 shadow rounded-lg p-4 text-sm">
+            Note : Your password must be a combination of alphanumeric
+            characters including a uppercase letter and a special character.
+          </div>
           <div className="flex flex-col items-center gap-2 text-center ">
             <h1 className="text-2xl font-bold">Forgot Password</h1>
             <p className="text-muted-foreground text-sm text-balance">
