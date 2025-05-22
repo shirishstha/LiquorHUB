@@ -35,8 +35,8 @@ const items = [
 
 export function UserSidebar() {
   return (
-      <Sidebar  collapsible="icon" className='z-0 mt-16'>
-        <SidebarContent className='bg-white shadow-md'>
+      <Sidebar  collapsible="icon" className='z-0 mt-16 '>
+        <SidebarContent className='bg-white dark:bg-[#161b22] shadow-md'>
           <SidebarGroup>
             <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
             <SidebarGroupContent>

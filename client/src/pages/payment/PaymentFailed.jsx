@@ -25,7 +25,7 @@ const PaymentFailed = () => {
               <h1 className='text-3xl font-bold'>PAYMENT FAILED</h1>
               <hr />
               <h3>Your payment has been canceled or failed due to some reasons.Would you like to try again?</h3>
-              <Link to="/cart"><Button>Try again</Button></Link>
+              <Link to="/cart"><Button className='dark:text-white dark:bg-[#161b22] hover:dark:bg-[#1c2128]'>Try again</Button></Link>
             </div>
             <div className=' w-[70%] h-[100%]'>
             <img src="/payment_error.png" alt="payment error"  />

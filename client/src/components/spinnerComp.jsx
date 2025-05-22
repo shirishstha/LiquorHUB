@@ -27,9 +27,9 @@ const SpinnerComp = () => {
 
   return (
     <>
-      <div className="flex flex-col justify-center h-screen items-center ">
-        <p className="text-4xl font-bold">Unauthorized Access</p>
-        <div className="text-4xl ">Redirecting to you in {count} second</div>
+      <div className="flex flex-col justify-center h-screen items-center dark:bg-[#0d1117] ">
+        <p className="text-4xl font-bold dark:text-white">Unauthorized Access</p>
+        <div className="text-4xl dark:text-white/80">Redirecting to you in {count} second</div>
         <div>
           <Spinner />
         </div>

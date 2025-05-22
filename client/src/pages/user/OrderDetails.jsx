@@ -136,7 +136,7 @@ const OrderDetails = () => {
               </div>
               <div className="flex p-2 justify-end">
                 <Link to="/">
-                  <Button>Go home</Button>
+                  <Button className='dark:bg-[#161b22] dark:text-white hover:dark:bg-[#1c2128]'>Go home</Button>
                 </Link>
               </div>
             </div>

@@ -51,7 +51,7 @@ const items = [
 export function AdminSidebar() {
   return (
     <Sidebar collapsible="icon" className='h-screen mt-16 z-1'>
-      <SidebarContent className="bg-[#fffffa] ">
+      <SidebarContent className="bg-[#fffffa] dark:bg-[#161b22] ">
         <SidebarGroup>
           <SidebarGroupLabel className="mb-3">Admin Dashboard</SidebarGroupLabel>
           <SidebarGroupContent>

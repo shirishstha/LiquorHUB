@@ -13,7 +13,7 @@ const Categories = () => {
             <Link
               to={`/category/${cat.slug}`}
               key={cat._id}
-              className=" flex items-center justify-center w-50 bg-black/1  shadow-md h-50 hover:shadow-xl"
+              className=" flex items-center justify-center w-50 bg-black/1  dark:shadow-gray-900 shadow-md h-50 hover:shadow-xl"
             >
               {cat.name}
             </Link>

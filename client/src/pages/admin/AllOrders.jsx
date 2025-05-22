@@ -23,7 +23,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/auth";
 import { Command, CommandItem, CommandList } from "@/components/ui/command";
 import { ChevronDown } from "lucide-react";
@@ -122,7 +122,7 @@ const AllOrders = () => {
                             onOpenChange={(open) => setOpenRow(open ? order._id : null)}
                           >
                             <PopoverTrigger asChild>
-                              <Button variant="ghost" className="font-normal bg-white hover:bg-white hover:cursor-pointer">
+                              <Button variant="ghost" className="font-normal bg-white hover:bg-white hover:cursor-pointer dark:bg-[#0d1117]">
                                 {order.status}
                                 <ChevronDown />
                               </Button>
@@ -170,8 +170,8 @@ const AllOrders = () => {
                           {new Date(order.createdAt).toLocaleDateString()}
                         </TableCell>
                         <TableCell>Rs.{order.totalAmount}</TableCell>
-                        <TableCell><Button variant="outline" className="font-normal hover:bg-white " 
-                                        onClick={()=>navigate(`/dashboard/user/order/${order._id}`)}>
+                        <TableCell><Button variant="outline" className="font-normal hover:bg-white hover:dark:bg-black/30" 
+                                        onClick={()=>navigate(`/dashboard/admin/order-detail/${order._id}`)}>
                                           View details
                                     </Button></TableCell>
                       </TableRow>

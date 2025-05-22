@@ -135,7 +135,7 @@ const CreateCategory = () => {
       <Layout title="Dashboard-Create Category">
         <SidebarLayout>
           <div className="w-full flex flex-col items-center pt-2">
-            <h1 className="text-black text-2xl font-bold ">Category</h1>
+            <h1 className="text-black text-2xl font-bold dark:text-white">Category</h1>
             <h3 className="text-gray-500 text-sm pb-2">
               Manage all your categories
             </h3>
@@ -223,7 +223,7 @@ const CreateCategory = () => {
                           <Button
                             variant="secondary"
                             size="sm"
-                            className="hover:bg-white"
+                            className="hover:bg-white hover:dark:bg-black/80"
                             onClick={() => handleDeleteCategory(category?._id)}
                           >
                             Delete

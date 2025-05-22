@@ -175,7 +175,7 @@ const UpdateProduct = () => {
                   {/* for selecting category */}
                   <Popover>
                     <PopoverTrigger asChild>
-                      <Button variant="outline" className="w-48 text-gray-800">
+                      <Button variant="outline" className="w-48 text-gray-800 dark:text-white">
                         {category?.name || "Choose category"}
                       </Button>
                     </PopoverTrigger>
@@ -245,16 +245,16 @@ const UpdateProduct = () => {
                       onValueChange={(value) => setShipping(value)}
                     >
                       <RadioGroupItem value={true} />
-                      <Label className="text-sm text-gray-800">Yes</Label>
+                      <Label className="text-sm text-gray-800 dark:text-gray-100">Yes</Label>
                       <RadioGroupItem value={false} />
-                      <Label className="text-sm  text-gray-800">No</Label>
+                      <Label className="text-sm  text-gray-800 dark:text-gray-100">No</Label>
                     </RadioGroup>
                   </div>
                 </div>
               </TabsContent>
             </Tabs>
             
-            <Button onClick={handleUpdateProduct} className="mt-5">Update Product</Button>
+            <Button onClick={handleUpdateProduct} className="mt-5 dark:bg-[#161b22] dark:text-white hover:dark:bg-gray-800">Update Product</Button>
           </div>
         </SidebarLayout>
       </Layout>

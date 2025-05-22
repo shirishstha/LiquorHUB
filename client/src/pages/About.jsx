@@ -20,7 +20,7 @@ const AboutPage = () => {
                 About Us
               </h1>
               <p className="py-5">
-                <span className="text-gray-900 text-2xl font-serif">Liquor Hub</span> is responsible for offering various kinds of liquor 
+                <span className="text-gray-900 text-2xl font-serif dark:text-white">Liquor Hub</span> is responsible for offering various kinds of liquor 
                 products. We offer delivery service all over kathmandu valley . 
                 Liquor Hub is a online platform offering numerous numbers and variaties
                 of liquor from all over the world.Cheers Mate!

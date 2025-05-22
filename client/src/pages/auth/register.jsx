@@ -144,7 +144,7 @@ const RegisterPage = () => {
                   />
                  
                   <Button
-                    className="absolute ml-[26%] hover:bg-white h-5 text-xs mt-8.5  cursor-pointer text-gray-600"
+                    className="absolute ml-[26%]  h-5 text-xs mt-8.5  cursor-pointer text-gray-600"
                     type="button"
                     variant="ghost"
                     onClick={() =>
@@ -158,7 +158,7 @@ const RegisterPage = () => {
               </div>
               <Button
                 type="submit"
-                className="w-full cursor-pointer"
+                className="w-full cursor-pointer dark:bg-[#161b22]  hover:dark:bg-[#1c2128] dark:text-white"
                 onClick={(e) => handleRegister(e)}
               >
                 Register

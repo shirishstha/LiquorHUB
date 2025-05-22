@@ -5,7 +5,7 @@ const PolicyPage = () => {
   return (
     <div>
         <Layout title="LiquorHub-policy">
-          <h1>Policy page</h1>
+          <h1 className='text-center mt-10'>Please contact our customer service department to know the privacy and policy of this website.</h1>
         </Layout>
     </div>
   )

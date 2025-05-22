@@ -117,7 +117,7 @@ const Profile = () => {
 
               <Button
                 type="submit"
-                className="w-full cursor-pointer"
+                className="w-full cursor-pointer dark:bg-[#161b22] hover:dark:bg-[#1c2128] dark:text-white"
                 onClick={() => handleUpdate()}
               >
                 Update

@@ -20,12 +20,16 @@ import {
 } from "../ui/hover-card";
 import useCategory from "@/hooks/useCategory";
 import { useCart } from "@/context/cart";
+import ThemeToggle from "../ui/toggleBtn";
+import { useTheme } from "@/context/theme";
+
 
 const Header = () => {
   const location = useLocation();
   const [auth, setAuth] = useAuth();
   const categories = useCategory();
   const [cart] = useCart();
+  const [theme] = useTheme();
   const handleLogout = () => {
     setAuth({
       ...auth,
@@ -37,13 +41,13 @@ const Header = () => {
   };
   return (
     <>
-      <div className="fixed w-screen flex justify-between px-4 py-2.5 shadow-sm bg-white z-10 ">
-        <h1 className=" flex space-x-2 items-center text-2xl bold">
+      <div className={`fixed w-screen flex justify-between px-4 py-2.5 shadow-sm dark:shadow-white/10 bg-white dark:bg-gradient-to-r from-[#0d1117] to-[#161b22] z-10 `}>
+        <h1 className={`flex space-x-2 items-center text-2xl bold `}>
           <span className="mt-0.5 mr-1 text-3xl">
-            <CiShoppingCart />
+            <CiShoppingCart className={``} />
           </span>
           Liquor
-          <span className="bg-gray-800 text-white rounded-md text-sm p-0.5  ml-1 mb-0=">
+          <span className={` text-white bg-gray-800 dark:text-black dark:bg-white rounded-md text-sm p-0.5  ml-1 mb-0`}>
             HUB
           </span>
         </h1>
@@ -52,14 +56,18 @@ const Header = () => {
         </div>
         {auth?.user?.role !== 1 ? (
           <NavigationMenu className="flex ">
-            <NavigationMenuList className="space-x-1">
+            <NavigationMenuList className={`space-x-1  `}>
               <NavigationMenuItem>
                 <NavigationMenuLink
                   asChild
-                  className={`text-md ${
-                    location.pathname === "/" ? "bg-gray-100" : "opacity-95"
-                  }`}
+                  className={`
+                         text-md
+                         ${location.pathname === '/'
+                                           ? 'bg-gray-100 dark:bg-[#1c2128]'
+                                           : 'opacity-95'}
+                       `}
                 >
+
                   <Link to="/">Home </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
@@ -69,11 +77,10 @@ const Header = () => {
                   <NavigationMenuItem>
                     <NavigationMenuLink
                       asChild
-                      className={`text-md ${
-                        location.pathname === "/register"
-                          ? "bg-gray-100"
-                          : "opacity-95"
-                      }`}
+                      className={`text-md ${location.pathname === "/register"
+                        ? 'bg-gray-100 dark:bg-[#1c2128]'
+                        : "opacity-95"
+                        }`}
                     >
                       <Link to="/register">Register </Link>
                     </NavigationMenuLink>
@@ -82,11 +89,10 @@ const Header = () => {
                   <NavigationMenuItem>
                     <NavigationMenuLink
                       asChild
-                      className={`text-md ${
-                        location.pathname === "/login"
-                          ? "bg-gray-100"
-                          : "opacity-95"
-                      }`}
+                      className={`text-md ${location.pathname === "/login"
+                        ? 'bg-gray-100 dark:bg-[#1c2128]'
+                        : "opacity-95"
+                        }`}
                     >
                       <Link to="/login">Login </Link>
                     </NavigationMenuLink>
@@ -110,12 +116,11 @@ const Header = () => {
                           <CommandList className="p-1.5">
                             <CommandItem>
                               <Link
-                                to={`/dashboard${
-                                  auth?.user?.role === 1 ? "/admin" : "/user"
-                                }`}
+                                to={`/dashboard${auth?.user?.role === 1 ? "/admin" : "/user"
+                                  }`}
                                 className="flex space-x-2"
                               >
-                                <LayoutDashboard className="text-black/80 items-center mt-0.5" />
+                                <LayoutDashboard className="text-black/80 dark:text-white items-center mt-0.5" />
                                 <span>Dashboard</span>
                               </Link>
                             </CommandItem>
@@ -125,7 +130,7 @@ const Header = () => {
                                 onClick={handleLogout}
                                 className="flex space-x-2"
                               >
-                                <LogOut className="text-black/80 items-center mt-0.5" />{" "}
+                                <LogOut className="text-black/80 dark:text-white items-center mt-0.5" />
                                 <span>Logout</span>
                               </Link>
                             </CommandItem>
@@ -187,14 +192,13 @@ const Header = () => {
               <NavigationMenuItem>
                 <NavigationMenuLink
                   asChild
-                  className={`text-md ${
-                    location.pathname === "/cart" ? "bg-gray-100" : "opacity-95"
-                  }`}
+                  className={`text-md ${location.pathname === "/cart" ? 'bg-gray-100 dark:bg-[#1c2128]' : "opacity-95"
+                    }`}
                 >
                   <Link to="/cart">
                     <span className="flex pr-5 h-[100%]">
                       Cart
-                      <span className="bg-black text-white text-xs h-4 w-3 flex justify-center items-center rounded-full p-2 ml-1">
+                      <span className="bg-black text-white text-xs h-4 w-3 flex justify-center items-center rounded-full p-2 ml-1 dark:bg-gray-800">
                         {cart.length}
                       </span>
                     </span>
@@ -213,13 +217,14 @@ const Header = () => {
               <Button variant="outline">
                 <span className="font-normal">Logout</span>
                 <LogOut
-                  className="text-black/80 items-center mt-0.5"
+                  className="text-black/80 dark:text-gray-100 items-center mt-0.5"
                   size={18}
                 />
               </Button>
             </Link>
           </div>
         )}
+        <div> <ThemeToggle /></div>
       </div>
     </>
   );

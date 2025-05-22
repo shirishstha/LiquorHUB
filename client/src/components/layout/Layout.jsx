@@ -4,15 +4,18 @@ import Footer from "./Footer";
 import { Helmet } from "react-helmet";
 import { Toaster } from "react-hot-toast";
 import { useLocation } from "react-router-dom";
+import { useTheme } from "@/context/theme";
 
 const Layout = ({ children, description, keywords, author, title }) => {
 
   //to insure that the scroll is set to top when navigating to different route
   const location = useLocation();
-  
-  useEffect(()=>{
-    window.scrollTo(0,0);
-  },[location.pathname]);
+
+  const [theme] = useTheme();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <div>
@@ -24,11 +27,18 @@ const Layout = ({ children, description, keywords, author, title }) => {
         <title>{title}</title>
       </Helmet>
       {/* header component */}
-      <Header/>
+      <Header />
 
       {/* all other child components */}
-      <main className="pt-18 min-h-[100vh]">{children}</main>
-      <Toaster/>
+      <main className={`pt-18 min-h-[100vh] dark:bg-[#0d1117] `}>{children}</main>
+      <Toaster
+        toastOptions={{
+          style: {
+            background: theme === 'dark' ? '#1f2937' : '#ffffff',
+            color: theme === 'dark' ? '#f9fafb' : '#1f2937',
+          },
+        }}
+      />
 
       {/* footer component */}
       <Footer />

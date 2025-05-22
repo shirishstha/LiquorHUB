@@ -71,9 +71,9 @@ const Orders = () => {
                           <TableCell>
                             <span
                               className={`p-1.5 rounded-lg ${
-                                order.status === "success"
-                                  ? "bg-green-100"
-                                  : "bg-yellow-100"
+                                order.status === "delivered"
+                                  ? "dark:bg-green-900 bg-green-100"
+                                  : order.status === "cancelled" ? "dark:bg-red-900 bg-red-100": "dark:bg-yellow-900 bg-yellow-100"
                               }`}
                             >
                               {order.status}

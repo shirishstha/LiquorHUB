@@ -55,7 +55,7 @@ export function ForgotPassword({ className, ...props }) {
           />
         </div>
         <div className="flex flex-col r w-1/2 px-25  mt-3">
-        <div className="mb-5 text-gray-500 shadow rounded-lg p-4 text-sm">
+        <div className="mb-5 text-gray-500 shadow dark:shadow-gray-600 rounded-lg p-4 text-sm">
             Note : Your password must be a combination of alphanumeric
             characters including a uppercase letter and a special character.
           </div>
@@ -104,7 +104,7 @@ export function ForgotPassword({ className, ...props }) {
             </div>
             <Button
               type="submit"
-              className="w-full cursor-pointer"
+              className="w-full cursor-pointer dark:bg-[#161b22]  hover:dark:bg-[#1c2128] dark:text-white"
               onClick={(e) => handleForgotPassword(e)}
             >
               Reset

@@ -28,6 +28,7 @@ import PaymentSuccess from "./pages/payment/paymentSuccess";
 import PaymentFailed from "./pages/payment/paymentFailed";
 import OrderDetails from "./pages/user/OrderDetails";
 import AllOrders from "./pages/admin/AllOrders";
+import AdminOrderDetails from "./pages/admin/OrderDetails";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
         <Route path="/dashboard" element={<AdminRoute/>}>
           <Route path="admin" element={<AdminDashboard />} />
           <Route path="admin/all-orders" element={<AllOrders />} />
+          <Route path="admin/order-detail/:oid" element={<AdminOrderDetails />} />
           <Route path="admin/create-category" element={<CreateCategory />} />
           <Route path="admin/create-product" element={<CreateProduct />} />
           <Route path="admin/products" element={<Products />} />

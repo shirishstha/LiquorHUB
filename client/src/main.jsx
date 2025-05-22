@@ -5,13 +5,16 @@ import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/auth";
 import { SearchProvider } from "./context/search";
 import { CartProvider } from "./context/cart";
+import { ThemeProvider } from "./context/theme";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <AuthProvider>
       <SearchProvider>
         <CartProvider>
-          <App />
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
         </CartProvider>
       </SearchProvider>
     </AuthProvider>

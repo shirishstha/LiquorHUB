@@ -21,6 +21,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Package2 } from "lucide-react";
+import { useTheme } from "@/context/theme";
 
 const Dashboard = () => {
   const [orderData, setOrderData] = useState([]);
@@ -30,6 +31,7 @@ const Dashboard = () => {
 
   const [auth] = useAuth();
   const success = ["success", "processing", "delivered", "shipped"];
+  const [theme] = useTheme();
 
   const getUserOrders = async () => {
     try {
@@ -123,40 +125,55 @@ const Dashboard = () => {
               <h1 className="text-2xl font-semibold">
                 Welcome back, {auth.user.name}!
               </h1>
-              <h3 className="text-gray-600  text-sm">
+              <h3 className="text-gray-600  dark:text-gray-500 text-sm">
                 Here are all your purchase reports
               </h3>
             </div>
 
-            <div className="flex shadow rounded-md p-3 w-[28%] ">
-              <span className="flex items-center my-5 p-2 bg-gray-50 rounded-full">
+            <div className="flex shadow dark:shadow-gray-900 rounded-md p-3 w-[28%] dark:bg-[#161b22] ">
+              <span className="flex items-center my-5 p-2 bg-gray-50 dark:bg-[#0d1117] rounded-full">
                 <Package2 />
               </span>
               <div className="p-2">
                 <h1 className="text-3xl ">
                   Rs.{`${orderData.length > 0 ? totalPurchase : "0"}`}
                 </h1>
-                <h2 className="  text-xs text-gray-600">Total Purchase</h2>
+                <h2 className="  text-xs text-gray-600 dark:text-gray-500">Total Purchase</h2>
               </div>
             </div>
 
             <h1 className="text-xl mb-1">Purchase Chart </h1>
 
             {orderData.length > 0 ? (
-              <div className="h-[140%]">
+              <div className="h-[140%] dark:bg-[#0d1117] ">
                 <ResponsiveContainer>
                   <LineChart data={orderData}>
                     <XAxis dataKey="date" minTickGap={32} tickMargin={10} />
                     <YAxis tickMargin={10} />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="amount" stroke="#191919" />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: '#161b22',  
+                        border: '1px solid #2c2c2c',
+                        borderRadius: '8px',
+                        padding: '10px',
+                      }}
+                      labelStyle={{
+                        color: '#fafafa',
+                        marginBottom: '4px',
+                      }}
+                      itemStyle={{
+                        color: '#fafafa',
+                      }}
+                    />
+
+                    <Line type="monotone" dataKey="amount" stroke={`${theme === 'dark' ? '#fafafa' : '#191919'} `} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
             ) : (
               <div className="h-50 text-gray-500">
                 You will see your purchase chart here once you successfully
-                place a order.{" "}
+                place a order.
               </div>
             )}
 
@@ -164,15 +181,15 @@ const Dashboard = () => {
             <div className="">
               <div className="p-2 py-2 ">
                 <h1 className="text-xl "> Top Ordered</h1>
-                <h3 className="text-gray-600 pb-2 text-sm ">
+                <h3 className="text-gray-600 pb-2 text-sm dark:text-gray-500">
                   Most ordered items list
                 </h3>
               </div>
 
               {orderData.length > 0 ? (
-                <Table className="w-[60%] ">
+                <Table className="w-[60%]">
                   <TableHeader>
-                    <TableRow className="hover:bg-white">
+                    <TableRow className="hover:bg-white hover:dark:bg-[#0d1117]">
                       <TableHead className="w-[30%] ">SN.</TableHead>
                       <TableHead className="w-[50%] ">
                         Name of Product
@@ -204,16 +221,16 @@ const Dashboard = () => {
           </div>
           <div className="col-span-1 px-2">
             <h1 className="text-xl p-2"> Top Orders by Category</h1>
-            
-              <Table className="w-[100%] ">
-                <TableHeader>
-                  <TableRow className="hover:bg-white">
-                    <TableHead className="w-[50%] ">Category</TableHead>
-                    <TableHead className="w-[20%]">Ordered times</TableHead>
-                  </TableRow>
-                </TableHeader>
-                {orderData.length > 0 ? (
-                   <TableBody>
+
+            <Table className="w-[100%] ">
+              <TableHeader>
+                <TableRow className="hover:bg-white hover:dark:bg-[#0d1117]">
+                  <TableHead className="w-[50%] ">Category</TableHead>
+                  <TableHead className="w-[20%]">Ordered times</TableHead>
+                </TableRow>
+              </TableHeader>
+              {orderData.length > 0 ? (
+                <TableBody>
                   {mostCatPurchased?.map((product) => (
                     <TableRow key={product.name}>
                       <TableCell className="text-sm ">{product.name}</TableCell>
@@ -223,13 +240,13 @@ const Dashboard = () => {
                     </TableRow>
                   ))}
                 </TableBody>
-                 ) : (
-                  <div className="h-50 text-gray-500 w-full">
-                    Nothing to display
-                  </div>
-                )}
-              </Table>
-           
+              ) : (
+                <div className="h-50 text-gray-500 w-full">
+                  Nothing to display
+                </div>
+              )}
+            </Table>
+
           </div>
         </div>
       </SidebarLayout>

@@ -109,14 +109,14 @@ const Homepage = () => {
         <HeroCarousel />
       </div>
 
-      <h1 className="text-center text-3xl font-bold mt-[20px]">Our Products</h1>
-      <div className="flex flex-col  items-end px-5">
+      <h1 className={`text-center text-3xl font-bold mt-[20px] text-black dark:text-white/90`}>Our Products</h1>
+      <div className="flex flex-col  items-end px-5 ">
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild className="flex w-[15%]">
             <Button variant="outline">{selectedCategory.name}</Button>
           </PopoverTrigger>
-          <PopoverContent>
-            <Command>
+          <PopoverContent className=''>
+            <Command className=''>
               <CommandInput placeholder="Select Category" />
               <CommandList>
                 <CommandEmpty>No category found</CommandEmpty>

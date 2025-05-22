@@ -23,6 +23,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Package2 } from "lucide-react";
+import { useTheme } from "@/context/theme";
 
 const AdminDashboard = () => {
   const [orderData, setOrderData] = useState([]);
@@ -34,6 +35,7 @@ const AdminDashboard = () => {
 
   const [auth] = useAuth();
   const status = ["processing", "delivered"];
+  const [theme] = useTheme()
   const getUserOrders = async () => {
     try {
       const { data } = await axios.get(
@@ -137,8 +139,7 @@ const AdminDashboard = () => {
   const getAllProducts = async () => {
     try {
       const { data } = await axios.get(
-        `${
-          import.meta.env.VITE_BACKEND_API
+        `${import.meta.env.VITE_BACKEND_API
         }/api/liquorhub/product/getall-product?limit=100`
       );
       if (data.success) {
@@ -163,25 +164,25 @@ const AdminDashboard = () => {
   return (
     <Layout title="Dashboard">
       <SidebarLayout>
-        <div className="grid grid-cols-4 w-full mt-2">
+        <div className="grid grid-cols-4 w-full mt-2 ">
           <div className="flex flex-col space-y-10 w-full px-5 col-span-3">
             {/* chart section */}
             <div>
               <h1 className="text-2xl font-semibold">
                 Welcome back, {auth.user.name}!
               </h1>
-              <h3 className="text-gray-600  text-sm">
+              <h3 className="text-gray-600 dark:text-gray-500 text-sm">
                 Here are all your business reports
               </h3>
             </div>
 
-            <div className="flex shadow rounded-md p-3 w-[28%] bg-gray-50">
-              <span className="flex items-center my-5 p-2 bg-white rounded-full">
-                <Package2 color="black" />
+            <div className="flex shadow dark:shadow-white/20 rounded-md p-3 w-[28%] bg-gray-50 dark:bg-[#161b22]">
+              <span className="flex items-center my-5 p-2 bg-white dark:bg-gray-950 rounded-full">
+                <Package2 />
               </span>
               <div className="p-2 ">
                 <h1 className="text-3xl ">Rs.{totalSales}</h1>
-                <h2 className="  text-xs text-gray-600">Total Sales</h2>
+                <h2 className="  text-xs text-gray-600 dark:text-gray-500">Total Sales</h2>
               </div>
             </div>
 
@@ -189,16 +190,27 @@ const AdminDashboard = () => {
             <ResponsiveContainer height={300}>
               <AreaChart data={orderData}>
                 <XAxis dataKey="date" minTickGap={32} tickMargin={10} />
+                <defs>
+                  <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#D1D5DB" stopOpacity={0.8} />  {/* Indigo-600 */}
+                    <stop offset="95%" stopColor="#D1D5DB" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
 
                 <Area
                   type="monotone"
                   dataKey="amount"
-                  stroke="#525252"
-                  fill="#F5F5F5"
+                  stroke={theme === 'light' ? '#525252' : '#fafafa'}
+                  // fill={theme === 'light' ? '#F5F5F5' : '#374151'}
+                  fill="url(#colorGradient)"
                   strokeWidth={0.3}
                   fillOpacity={0.8}
                 />
-                <Tooltip />
+                <Tooltip
+                  itemStyle={{ color: theme === 'light' ? '#4c4c4c' : '#D1D5DB' }}
+                  contentStyle={{ backgroundColor: theme === 'light' ? 'white' : '#111827' }}
+
+                />
               </AreaChart>
             </ResponsiveContainer>
 
@@ -206,19 +218,19 @@ const AdminDashboard = () => {
             <div className="">
               <div className="p-2 py-2 ">
                 <h1 className="text-xl "> Top Ordered</h1>
-                <h3 className="text-gray-600 pb-2 text-sm ">
+                <h3 className="text-gray-600 pb-2 text-sm dark:text-gray-500">
                   Most ordered items list
                 </h3>
               </div>
 
               <Table className="w-[60%] ">
                 <TableHeader>
-                  <TableRow className="hover:bg-white">
-                    <TableHead className="w-[30%] text-gray-800">SN.</TableHead>
-                    <TableHead className="w-[50%] text-gray-800">
+                  <TableRow className="hover:bg-white hover:dark:bg-gray-950 ">
+                    <TableHead className="w-[30%] text-gray-800 dark:text-gray-400 ">SN.</TableHead>
+                    <TableHead className="w-[50%] text-gray-800 dark:text-gray-400">
                       Name of Product
                     </TableHead>
-                    <TableHead className="w-[20%] text-gray-800">
+                    <TableHead className="w-[20%] text-gray-800 dark:text-gray-400">
                       Ordered times
                     </TableHead>
                   </TableRow>
@@ -238,23 +250,31 @@ const AdminDashboard = () => {
 
               <div className="mt-10 py-2 ">
                 <h1 className="text-xl "> Most Revenue</h1>
-                <h3 className="text-gray-600 pb-2 text-sm ">
+                <h3 className="text-gray-600 pb-2 text-sm dark:text-gray-500">
                   Highest revenue generated according to product
                 </h3>
               </div>
               <ResponsiveContainer width="120%" height={300} className="mt-0 ">
-                <BarChart data={itemSales}>
+                <BarChart data={itemSales} >
                   <Tooltip
-                    itemStyle={{ color: '#4c4c4c' }}
+                    itemStyle={{ color: theme === 'light' ? '#4c4c4c' : '#D1D5DB' }}
+                    contentStyle={{ backgroundColor: theme === 'light' ? 'white' : '#111827' }}
                     cursor={false}
                   />
 
-                  <XAxis dataKey="name" className="text-sm" />
+                  <XAxis dataKey="name" className="text-sm"  />
                   <YAxis />
+                  <defs>
+                    <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#D1D5DB" stopOpacity={0.8} />  {/* Indigo-600 */}
+                      <stop offset="95%" stopColor="#D1D5DB" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
                   <Bar
                     dataKey="total"
                     barSize={25}
-                    fill="#F5F5F5"
+                    // fill="#F5F5F5"
+                    fill="url(#colorGradient)"
                     stroke="#525252"
                     strokeOpacity={0.3}
                     strokeWidth={0.2}
@@ -268,16 +288,16 @@ const AdminDashboard = () => {
               </ResponsiveContainer>
             </div>
           </div>
-          <div className="col-span-1 px-2 text-gray-800">
+          <div className="col-span-1 px-2 ">
             <h1 className="text-xl p-2"> Top Orders by Category</h1>
 
             <Table className="w-[100%] ">
               <TableHeader>
-                <TableRow className="hover:bg-white">
-                  <TableHead className="w-[80%] text-gray-800 ">
+                <TableRow className="hover:bg-white hover:dark:bg-gray-950">
+                  <TableHead className="w-[80%]  text-gray-800 dark:text-gray-400">
                     Category
                   </TableHead>
-                  <TableHead className="w-[20%] text-gray-800 text-center">
+                  <TableHead className="w-[20%]  text-gray-800 dark:text-gray-400 text-center">
                     Ordered times
                   </TableHead>
                 </TableRow>
@@ -297,11 +317,11 @@ const AdminDashboard = () => {
             <h1 className="text-xl p-2 pt-20 "> Low Stock Summary</h1>
             <Table className="w-[100%] ">
               <TableHeader>
-                <TableRow className="hover:bg-white">
-                  <TableHead className="w-[70%] text-gray-800">
+                <TableRow className="hover:bg-white hover:dark:bg-gray-950 ">
+                  <TableHead className="w-[70%] text-gray-800 dark:text-gray-400">
                     Product
                   </TableHead>
-                  <TableHead className="w-[30%] text-gray-800 text-center">
+                  <TableHead className="w-[30%] text-gray-800 dark:text-gray-400 text-center">
                     Stock
                   </TableHead>
                 </TableRow>

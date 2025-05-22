@@ -72,24 +72,24 @@ const ProductDetails = () => {
           )}
         </div>
 
-        <div className="w-1/2 space-y-2 shadow-md p-3 rounded-lg ">
-          <h3 className="bg-black w-40 text-white text-center rounded-xl">
+        <div className="w-1/2 space-y-2 shadow-md dark:shadow-[#1c2128] p-3 rounded-lg ">
+          <h3 className="bg-black dark:bg-[#161b22] w-40 text-white text-center rounded-xl">
             Premium collection
           </h3>
           <h1 className=" font-medium text-4xl  ">{product?.name}</h1>
-          <h2 className="  text-xl text-gray-700 ">
+          <h2 className="  text-xl text-gray-700 dark:text-gray-500">
             {product?.category?.name}
           </h2>
           <div className="min-h-48  border p-3 rounded-lg">
             {product?.description}
           </div>
           <div className="space-y-4 border p-2 rounded">
-            <span className="p-4 text-xl text-gray-700">Price</span>
+            <span className="p-4 text-xl text-gray-700 dark:text-gray-500">Price</span>
             <div className="flex justify-between mx-4 items-center">
               <span className="text-3xl font-medium">Rs. {product?.price}</span>
               <span>
                 <Button
-                  className="px-12 py-6"
+                  className="px-12 py-6 dark:bg-[#161b22] dark:text-white hover:dark:bg-[#1c2128]"
                   onClick={() => {
                     const existingItem = cart.find(
                       (item) => item._id === product._id

@@ -9,16 +9,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useCart } from "@/context/cart";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
-
-const PaymentSuccess = () => {
+const AdminOrderDetails = () => {
   const params = useParams();
   const { oid } = params;
-  const [cart,setCart] = useCart();
   const [order, setOrder] = useState({});
   const getOrderDetails = async () => {
     try {
@@ -34,32 +31,25 @@ const PaymentSuccess = () => {
       toast.error("Error getting order details");
     }
   };
-
   useEffect(() => {
     getOrderDetails();
+  }, [params.oid]);
 
-    if(!sessionStorage.getItem(`cartCleared_${oid}`)){
-      toast.success("Payment successfull");
-      setCart([]);
-      localStorage.removeItem("cart");
-      sessionStorage.setItem(`cartCleared_${oid}`,"true");
-    }
-  }, [oid]);
-
-
-  const calcItemTotal = (quantity, price) =>{
-        return quantity*price;
-  }
+  const calcItemTotal = (quantity, price) => {
+    return quantity * price;
+  };
 
   const calcTotalAmount = () => {
-     const total = order?.products?.reduce((sum, product)=> sum + product.quantity * product._id.price, 0);
-     return total;
-  }
+    const total = order?.products?.reduce(
+      (sum, product) => sum + product.quantity * product._id.price,
+      0
+    );
+    return total;
+  };
   const shipping = 200;
   const grandTotal = calcTotalAmount() + shipping;
-
   return (
-    <Layout>
+    <Layout title="Order Details">
       <SidebarLayout>
         {order ? (
           <div className="flex flex-col h-[100%] w-[100%] p-6 items-center">
@@ -103,14 +93,20 @@ const PaymentSuccess = () => {
                         <TableCell>
                           <img
                             className="h-[50px]  object-contain aspect-square"
-                            src={`${ import.meta.env.VITE_BACKEND_API}/api/liquorhub/product/product-photo/${product?._id._id}`}
+                            src={`${
+                              import.meta.env.VITE_BACKEND_API
+                            }/api/liquorhub/product/product-photo/${
+                              product?._id._id
+                            }`}
                             alt={product._id.name}
                           />
                         </TableCell>
                         <TableCell>{product._id.name}</TableCell>
                         <TableCell>{product.quantity}</TableCell>
                         <TableCell>{product._id.price}</TableCell>
-                        <TableCell>{calcItemTotal(product.quantity,product._id.price)}</TableCell>
+                        <TableCell>
+                          {calcItemTotal(product.quantity, product._id.price)}
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -138,11 +134,6 @@ const PaymentSuccess = () => {
                 <span>Total</span>
                 <span>Rs.{grandTotal}</span>
               </div>
-              <div className="flex p-2 justify-end">
-                <Link to="/">
-                  <Button className='dark:text-white dark:bg-[#161b22] hover:dark:bg-[#1c2128]' >Go home</Button>
-                </Link>
-              </div>
             </div>
           </div>
         ) : (
@@ -153,4 +144,4 @@ const PaymentSuccess = () => {
   );
 };
 
-export default PaymentSuccess;
+export default AdminOrderDetails;

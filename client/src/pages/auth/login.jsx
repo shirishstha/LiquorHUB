@@ -92,7 +92,7 @@ const LoginPage = () => {
                   />
                  
                   <Button
-                    className="absolute ml-[28%] hover:bg-white h-5 text-xs mt-2 p-0 cursor-pointer text-gray-600"
+                    className="absolute ml-[28%] h-5 text-xs mt-2 p-0 cursor-pointer text-gray-600"
                     type="button"
                     variant="ghost"
                     onClick={() =>
@@ -105,7 +105,7 @@ const LoginPage = () => {
                   </Button>
                 </div>
               </div>
-              <Button type="submit" className="w-full cursor-pointer">
+              <Button type="submit" className="w-full cursor-pointer dark:bg-[#161b22]  hover:dark:bg-[#1c2128] dark:text-white">
                 Login
               </Button>
             </div>

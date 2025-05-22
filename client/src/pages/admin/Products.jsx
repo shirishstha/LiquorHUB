@@ -72,7 +72,7 @@ const Products = () => {
     <Layout title="Dashboard-Manage Products">
       <SidebarLayout>
  
-        <div className=" flex flex-col p-2 w-full bg-white items-center">
+        <div className=" flex flex-col p-2 w-full bg-white dark:bg-[#0d1117] items-center">
           <h1 className="text-2xl font-bold ">Products</h1>
           <h3 className="text-gray-600 text-sm pb-5">Review your products here</h3>
           {/* here come search bar */}
@@ -113,7 +113,7 @@ const Products = () => {
                         </Link>
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
-                            <Button >
+                            <Button className="dark:bg-[#161b22] dark:text-white hover:dark:bg-black/20" >
                               Delete
                             </Button>
                           </AlertDialogTrigger>

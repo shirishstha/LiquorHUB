@@ -10,7 +10,7 @@ const PageNotFoundPage = () => {
         <div className="flex flex-col  items-center h-[70vh] justify-center">
           <h1 className="text-7xl font-medium mb-2">404</h1>
           <h2 className="text-2xl mb-2">Oops ! Page Not Found</h2>
-          <Button>
+          <Button className='dark:bg-[#161b22] hover:dark:bg-[#1c2128] dark:text-white'>
             <Link to="/">Go back</Link>
           </Button>
         </div>
